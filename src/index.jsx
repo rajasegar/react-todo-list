@@ -2,10 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import './index.css';
+import { Provider } from 'mobx-react';
+import TodoStore from './store';
+
+const store = new TodoStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider todoStore={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

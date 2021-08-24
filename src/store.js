@@ -1,10 +1,26 @@
-import { observable, action, computed, decorate } from 'mobx';
+import { makeObservable, observable, action, computed } from 'mobx';
 
 import { fetchAPITodos, generateID } from './api';
 
 export default class TodoStore {
   todos = [];
   filter = 'all';
+
+  constructor() {
+    makeObservable(this, {
+      // values
+      todos: observable,
+      filter: observable,
+      // computed
+      filteredTodos: computed,
+      // actions
+      fetch: action,
+      addTodo: action,
+      toggleTodo: action,
+      removeTodo: action,
+      filterTodos: action,
+    });
+  }
 
   get filteredTodos() {
     switch (this.filter) {
@@ -37,5 +53,19 @@ export default class TodoStore {
     }
   }
 
-  removeTodo(id) {}
+  removeTodo(id) {
+    let index = 0;
+    for (let todo of this.todos) {
+      if (todo.id === id) {
+        break;
+      } else {
+        index++;
+      }
+    }
+    this.todos.splice(index, 1);
+  }
+
+  filterTodos(filterName) {
+    this.filter = filterName;
+  }
 }
