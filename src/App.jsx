@@ -7,9 +7,10 @@ import TodoFilter from './TodoFilter.jsx';
 import StateContext from './StateContext';
 import { fetchAPITodos, generateID } from './api';
 import appReducer from './reducers.js';
-import { inject } from 'mobx-react';
+import { useTodoStore } from './hooks';
 
-export default inject('todoStore')(function App({ todoStore }) {
+export default function App() {
+  const todoStore = useTodoStore();
   const [state, dispatch] = useReducer(appReducer, {
     todos: [],
     filter: 'all',
@@ -29,4 +30,4 @@ export default inject('todoStore')(function App({ todoStore }) {
       <TodoFilter />
     </div>
   );
-});
+}
