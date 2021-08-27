@@ -1,8 +1,10 @@
 import React, { useContext, useMemo } from 'react';
-import ConnectedTodoItem from '../containers/ConnectedTodoItem';
+import TodoItem from './TodoItem';
+import { useSelector } from 'react-redux';
 
-export default function TodoList(props) {
-  const { filter, todos } = props;
+export default function TodoList() {
+  const filter = useSelector((state) => state.filter);
+  const todos = useSelector((state) => state.todos);
 
   const filteredTodos = useMemo(() => {
     switch (filter) {
@@ -17,7 +19,5 @@ export default function TodoList(props) {
     }
   }, [filter, todos]);
 
-  return filteredTodos.map((item) => (
-    <ConnectedTodoItem {...item} key={item.id} />
-  ));
+  return filteredTodos.map((item) => <TodoItem {...item} key={item.id} />);
 }

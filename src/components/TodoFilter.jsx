@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterTodos } from '../actions';
 
-function TodoFilterItem({ name, filterTodos, filter = 'all' }) {
+function TodoFilterItem({ name }) {
+  const dispatch = useDispatch();
+  const filter = useSelector((state) => state.filter);
+
   function handleFilter() {
-    filterTodos(name);
+    dispatch(filterTodos(name));
   }
 
   const style = {
@@ -18,14 +23,14 @@ function TodoFilterItem({ name, filterTodos, filter = 'all' }) {
   );
 }
 
-export default function TodoFilter(props) {
+export default function TodoFilter() {
   return (
     <div>
-      <TodoFilterItem {...props} name="all" />
+      <TodoFilterItem name="all" />
       {' / '}
-      <TodoFilterItem {...props} name="active" />
+      <TodoFilterItem name="active" />
       {' / '}
-      <TodoFilterItem {...props} name="completed" />
+      <TodoFilterItem name="completed" />
     </div>
   );
 }
