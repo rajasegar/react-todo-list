@@ -1,28 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { createStore } from 'redux';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Header.jsx';
 import ConnectedAddTodo from '../containers/ConnectedAddTodo';
 import ConnectedTodoList from '../containers/ConnectedTodoList';
 import ConnectedTodoFilter from '../containers/ConnectedTodoFilter';
-import { fetchAPITodos } from '../api';
-import appReducer from '../reducers';
 
-const initialState = { todos: [], filter: 'all' };
-const store = createStore(appReducer, initialState);
-const { dispatch } = store;
-
-export default function App() {
-  const [state, setState] = useState(initialState);
-
+export default function App({ fetchTodos }) {
   useEffect(() => {
-    const unsubscribe = store.subscribe(() => setState(store.getState()));
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    fetchAPITodos().then((todos) => dispatch({ type: 'FETCH_TODOS', todos }));
-  }, []);
+    fetchTodos();
+  }, [fetchTodos]);
 
   return (
     <div style={{ width: 400 }}>
